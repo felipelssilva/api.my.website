@@ -1,6 +1,7 @@
 const app = require('./app');
 const http = require('http');
 const debug = require('debug')('nodestr:server');
+const httpProxy = require('http-proxy');
 
 // PORT // based on express-generator
 function normalizePort(val) {
@@ -50,6 +51,9 @@ function onListening() {
 }
 
 // server
+// httpProxy.createServer({
+//   target:'http://localhost:3000'
+// }).listen(4200);
 const server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
