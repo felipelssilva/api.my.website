@@ -33,7 +33,7 @@ app.use(passport.session());
 
 app.use(express.json());
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
-app.set("view engine", "ejs")
+app.set("view engine", "ejs");
 
 app.use(cookieParser(process.env.SECRET));
 app.use(session({ cookie: { maxAge: 60000 } }));
@@ -41,6 +41,8 @@ app.use(flash());
 
 app.use((req, res, next) => {
     res.locals.message = req.flash();
+    res.setHeader('Access-Control-Allow-Origin', 'https://felipeluis.com.br');
+    res.setHeader('Access-Control-Allow-Methods', 'GET');
     next();
 });
 
