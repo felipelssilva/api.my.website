@@ -41,10 +41,21 @@ app.use(flash());
 
 app.use((req, res, next) => {
     res.locals.message = req.flash();
-    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    const allowedOrigins = [
+        'https://www.felipeluis.com.br', 
+        'https://felipeluis.com.br', 
+        'http://localhost:3000', 
+        'http://localhost:4200'
+    ];
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+    
     res.setHeader('Access-Control-Allow-Methods', 'GET');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Credentials', true);
     next();
 });
 
