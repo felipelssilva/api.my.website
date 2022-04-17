@@ -43,12 +43,14 @@ app.use((req, res, next) => {
     res.locals.message = req.flash();
 
     const allowedOrigins = [
-        'https://www.felipeluis.com.br', 
-        'https://felipeluis.com.br', 
-        'http://localhost:3000', 
-        'http://localhost:4200'
+        'www.felipeluis.com.br', 
+        'felipeluis.com.br', 
+        'localhost:3000', 
+        'localhost:4200'
     ];
-    const origin = req.headers.origin;
+
+    const origin = req.headers.host;
+
     if (allowedOrigins.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
     }
