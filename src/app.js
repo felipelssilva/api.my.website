@@ -41,7 +41,7 @@ app.use(flash());
 
 app.use((req, res, next) => {
     res.locals.message = req.flash();
-    res.setHeader('Access-Control-Allow-Origin', 'https://felipeluis.com.br');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     res.setHeader('Access-Control-Allow-Credentials', true);
