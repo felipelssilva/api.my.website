@@ -34,7 +34,9 @@
         "prettier": "^2.7.1",
         "debug": "4.3.4",
         "dotenv": "16.0.3",
-        "uuidv4": "6.2.13"
+        "uuidv4": "6.2.13",
+        "cors": "^2.8.5",
+        "serverless-http": "^3.1.0"
     },
     "devDependencies": {
         "dotenv-safe": "8.2.0",

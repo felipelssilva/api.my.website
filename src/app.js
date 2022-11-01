@@ -5,6 +5,8 @@ const flash = require("connect-flash");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const path = require("path");
+const serverless = require("serverless-http");
+const cors = require("cors");
 
 const INDEX_VIEW_PATH = "./src/views/index.ejs";
 
@@ -34,6 +36,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
@@ -102,3 +105,4 @@ app.use("/secure/*", (req, res) => {
 });
 
 module.exports = app;
+module.exports.handler = serverless(app);
