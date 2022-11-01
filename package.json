@@ -11,8 +11,8 @@
         "dev": "node node_modules/nodemon/bin/nodemon src/server"
     },
     "engines": {
-        "node": "12.18.2",
-        "npm": "6.14.5"
+        "node": "16",
+        "npm": "8"
     },
     "dependencies": {
         "bcryptjs": "2.4.3",
