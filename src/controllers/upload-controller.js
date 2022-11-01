@@ -9,7 +9,7 @@ const permalink = (title) =>
 
 exports.multer = multer({
     storage: multer.diskStorage({
-        destination: "dist/felipeluis/assets/img/uploads/",
+        destination: "public/assets/img/uploads/",
         filename(req, file, callback) {
             const fileName = `${uuid()}-${permalink(file.originalname)}`;
             return callback(null, fileName);
