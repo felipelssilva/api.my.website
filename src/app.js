@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const express = require("express");
 const passport = require("passport");
 const flash = require("connect-flash");
