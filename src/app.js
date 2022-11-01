@@ -82,7 +82,7 @@ const aboutRoutes = require("./routes/about-routes");
 const certificatesRoutes = require("./routes/certificates-routes");
 const projectsRoutes = require("./routes/projects-routes");
 
-app.use(express.static(`dist/${nomeApp}/browser`));
+app.use(express.static(`public`));
 app.use("/", indexRoutes);
 app.use("/secure", secureRoutes);
 
