@@ -1,5 +1,5 @@
-const { validationResult } = require('express-validator');
-const repository = require('../repositories/contacts-repository');
+const { validationResult } = require("express-validator");
+const repository = require("../repositories/contacts-repository");
 
 // list
 exports.list = async (req, res) => {
@@ -7,7 +7,7 @@ exports.list = async (req, res) => {
         const data = await repository.list();
         res.status(200).send(data);
     } catch (e) {
-        res.status(500).send({ message: 'Failed to load contacts!' });
+        res.status(500).send({ message: "Failed to load contacts!" });
     }
 };
 
@@ -16,7 +16,7 @@ exports.details = async (req, res) => {
         const data = await repository.details(req.params.id);
         res.status(200).send(data);
     } catch (e) {
-        res.status(500).send({ message: 'Failed to load the contact info!' });
+        res.status(500).send({ message: "Failed to load the contact info!" });
     }
 };
 
@@ -25,7 +25,7 @@ exports.create = async (req, res) => {
     const { errors } = validationResult(req);
 
     if (errors.length > 0) {
-        return res.status(400).send({ message: errors })
+        return res.status(400).send({ message: errors });
     }
 
     try {
@@ -34,10 +34,12 @@ exports.create = async (req, res) => {
             email: req.body.email,
             subject: req.body.subject,
             message: req.body.message,
-            date: Date.now()
+            date: Date.now(),
         });
-        return res.status(201).send({ message: 'Contact successfully registered!' });
+        return res
+            .status(201)
+            .send({ message: "Contact successfully registered!" });
     } catch (e) {
-        return res.status(500).send({ message: 'Failed to register contact.' });
+        return res.status(500).send({ message: "Failed to register contact." });
     }
 };

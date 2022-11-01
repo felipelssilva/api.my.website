@@ -1,10 +1,11 @@
-const { validationResult } = require('express-validator');
-const repository = require('../repositories/admins-repository');
+/* eslint-disable consistent-return */
+// const { validationResult } = require("express-validator");
+const jwt = require("jsonwebtoken");
+const LocalStrategy = require("passport-local").Strategy;
 const passport = require("passport");
-const Admins = require('../models/admins');
-const LocalStrategy = require('passport-local').Strategy;
-const jwt = require('jsonwebtoken');
-const { verifyJWT } = require('../auth');
+const repository = require("../repositories/admins-repository");
+// const Admins = require("../models/admins");
+const { verifyJWT } = require("../auth");
 
 // list
 exports.list = async (req, res) => {
@@ -12,7 +13,7 @@ exports.list = async (req, res) => {
         const data = await repository.list();
         res.status(200).send(data);
     } catch (e) {
-        res.status(500).send({ message: 'Failed to load admins!' });
+        res.status(500).send({ message: "Failed to load admins!" });
     }
 };
 
@@ -29,55 +30,67 @@ exports.list = async (req, res) => {
 //     }
 // };
 
-exports.isLoggedIn = function (req, res, next) {
+exports.isLoggedIn = (req, res, next) => {
     if (req.isAuthenticated() && verifyJWT) return next();
     res.redirect("/secure/logout");
-}
+};
 
-exports.loggedinSuccess = function (req, res) {
+exports.loggedinSuccess = (req, res) => {
+    // eslint-disable-next-line no-underscore-dangle
     const userId = req.user._id;
-    let token = jwt.sign({ userId }, process.env.SECRET, {
-        expiresIn: '1d'
+    const token = jwt.sign({ userId }, process.env.SECRET, {
+        expiresIn: "1d",
     });
-    res.setHeader('Set-Cookie', [`x-access-token=${token}`]);
-    return res.json({ auth: true, token: token });
-}
+    res.setHeader("Set-Cookie", [`x-access-token=${token}`]);
+    return res.json({ auth: true, token });
+};
 
-exports.logout = function (req, res, next) {
+exports.logout = (req, res) => {
     req.logout();
-    res.setHeader('Set-Cookie', [`x-access-token=''`]);
-    res.redirect('/secure/login');
-}
+    res.setHeader("Set-Cookie", [`x-access-token=''`]);
+    res.redirect("/secure/login");
+};
 
-passport.serializeUser(function (username, done) {
+passport.serializeUser((username, done) => {
     done(null, username.id);
 });
 
-passport.deserializeUser(function (id, done) {
-    repository.getUserById(id, function (err, username) {
+passport.deserializeUser((id, done) => {
+    repository.getUserById(id, (err, username) => {
         done(err, username);
     });
 });
 
-passport.use(new LocalStrategy(async (username, password, done) => {
-    const data = await repository.getUserByUsername(username, function (err, admin) {
-        if (err) throw err;
-        if (!admin) {
-            return done(null, false, { message: 'Usuário ou senha não existentem.' });
-        }
+passport.use(
+    new LocalStrategy(async (username, password, done) => {
+        // eslint-disable-next-line no-unused-vars
+        const data = await repository.getUserByUsername(
+            username,
+            (err, admin) => {
+                if (err) throw err;
+                if (!admin) {
+                    return done(null, false, {
+                        message: "Usuário ou senha não existentem.",
+                    });
+                }
 
-        repository.comparePassword(password, admin.password, function (err, isMatch) {
-            if (err) return done(err);
-            if (isMatch) {
-                return done(null, admin);
-            } else {
-                return done(null, false, { message: 'Usuário ou senha inválidos.' });
+                repository.comparePassword(
+                    password,
+                    admin.password,
+                    (error, isMatch) => {
+                        if (error) return done(error);
+                        if (isMatch) {
+                            return done(null, admin);
+                        }
+                        return done(null, false, {
+                            message: "Usuário ou senha inválidos.",
+                        });
+                    }
+                );
             }
-        });
-    });
-}));
-
-
+        );
+    })
+);
 
 // create
 // exports.create = async (req, res) => {

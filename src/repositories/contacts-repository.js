@@ -1,19 +1,20 @@
-const mongoose = require('mongoose');
-const Contacts = mongoose.model('Contacts');
+const mongoose = require("mongoose");
+
+const Contacts = mongoose.model("Contacts");
 
 exports.list = async () => {
-  const res = await Contacts
-    .find({}, 'name email subject message date')
-    .sort([['date', -1]]);
-  return res;
+    const res = await Contacts.find({}, "name email subject message date").sort(
+        [["date", -1]]
+    );
+    return res;
 };
 
 exports.details = async (id, callback) => {
-  const res = Contacts.findById(id, callback);
-  return res;
-}
+    const res = Contacts.findById(id, callback);
+    return res;
+};
 
-exports.create = async data => {
-  const contacts = new Contacts(data);
-  await contacts.save();
+exports.create = async (data) => {
+    const contacts = new Contacts(data);
+    await contacts.save();
 };

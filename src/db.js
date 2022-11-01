@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const { LOG } = require("./services/log");
 
 const connection = process.env.DATABASE_CONNECTION_STRING;
 
@@ -9,22 +10,22 @@ mongoose.connect(connection, {
 
 const db = mongoose.connection;
 
-db.on('connected', () => {
-    console.log('Mongoose default connection is open');
+db.on("connected", () => {
+    LOG("Mongoose default connection is open");
 });
 
-db.on('error', err => {
-    console.log(`Mongoose default connection has occured \n${err}`);
+db.on("error", (err) => {
+    LOG(`Mongoose default connection has occured \n${err}`);
 });
 
-db.on('disconnected', () => {
-    console.log('Mongoose default connection is disconnected');
+db.on("disconnected", () => {
+    LOG("Mongoose default connection is disconnected");
 });
 
-process.on('SIGINT', () => {
+process.on("SIGINT", () => {
     db.close(() => {
-        console.log(
-            'Mongoose default connection is disconnected due to application termination'
+        LOG(
+            "Mongoose default connection is disconnected due to application termination"
         );
         process.exit(0);
     });
