@@ -1,19 +1,15 @@
 {
     "version": 2,
+    "builds": [
+        {
+            "src": "/src/server.js",
+            "use": "@now/node"
+        }
+    ],
     "routes": [
         {
             "src": "/(.*)",
             "dest": "/src/server.js"
         }
-    ],
-    "functions": {
-        "api/**/*": {
-            "memory": 1024,
-            "maxDuration": 10
-        },
-        "secure/**/*": {
-            "memory": 1024,
-            "maxDuration": 10
-        }
-    }
+    ]
 }
