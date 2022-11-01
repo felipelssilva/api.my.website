@@ -35,7 +35,7 @@
         "dotenv": "8.2.0",
         "dotenv-safe": "8.2.0",
         "ejs": "3.1.7",
-        "nodemon": "2.0.4",
+        "nodemon": "2.0.20",
         "uuidv4": "6.2.5"
     }
 }
