@@ -14,13 +14,13 @@ exports.list = async () => {
 // };
 
 exports.getUserById = async (id, callback) => {
-    const res = Admins.findById(id, callback);
+    const res = await Admins.findById(id, callback).clone();
     return res;
 };
 
 exports.getUserByUsername = async (username, callback) => {
     const query = { username };
-    const res = Admins.findOne(query, callback);
+    const res = await Admins.findOne(query, callback).clone();
     return res;
 };
 

@@ -39,7 +39,7 @@ app.use(passport.session());
 app.use(cors());
 
 app.use(express.json());
-app.use(express.urlencoded({ limit: "10mb", extended: true }));
+app.use(express.urlencoded({ limit: "2mb", extended: true }));
 app.set("view engine", "ejs");
 
 app.use(cookieParser(process.env.SECRET));
@@ -76,7 +76,6 @@ app.use((req, res, next) => {
 global.db = require("./db");
 
 // Load routes
-const indexRoutes = require("./routes/index-routes");
 const secureRoutes = require("./routes/secure-routes");
 const apiRoutes = require("./routes/api-routes");
 const contactsRoutes = require("./routes/contacts-routes");
@@ -86,7 +85,6 @@ const certificatesRoutes = require("./routes/certificates-routes");
 const projectsRoutes = require("./routes/projects-routes");
 
 app.use(express.static(`public`));
-app.use("/", indexRoutes);
 app.use("/secure", secureRoutes);
 
 app.use("/api", apiRoutes);

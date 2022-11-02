@@ -1,11 +1,10 @@
 /* eslint-disable consistent-return */
-// const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const LocalStrategy = require("passport-local").Strategy;
 const passport = require("passport");
 const repository = require("../repositories/admins-repository");
-// const Admins = require("../models/admins");
 const { verifyJWT } = require("../auth");
+const { LOG } = require("../services/log");
 
 // list
 exports.list = async (req, res) => {
@@ -46,7 +45,7 @@ exports.loggedinSuccess = (req, res) => {
 };
 
 exports.logout = (req, res) => {
-    req.logout();
+    // req.logout();
     res.setHeader("Set-Cookie", [`x-access-token=''`]);
     res.redirect("/secure/login");
 };
@@ -62,14 +61,14 @@ passport.deserializeUser((id, done) => {
 });
 
 passport.use(
-    new LocalStrategy(async (username, password, done) => {
+    new LocalStrategy(async (username, password, next) => {
         // eslint-disable-next-line no-unused-vars
-        const data = await repository.getUserByUsername(
-            username,
-            (err, admin) => {
+        const data = await repository
+            .getUserByUsername(username, (err, admin) => {
                 if (err) throw err;
+
                 if (!admin) {
-                    return done(null, false, {
+                    return next(null, false, {
                         message: "Usuário ou senha não existentem.",
                     });
                 }
@@ -78,17 +77,19 @@ passport.use(
                     password,
                     admin.password,
                     (error, isMatch) => {
-                        if (error) return done(error);
+                        if (error) return next(error);
                         if (isMatch) {
-                            return done(null, admin);
+                            return next(null, admin);
                         }
-                        return done(null, false, {
+                        return next(null, false, {
                             message: "Usuário ou senha inválidos.",
                         });
                     }
                 );
-            }
-        );
+            })
+            .catch((error) => {
+                LOG(error);
+            });
     })
 );
 

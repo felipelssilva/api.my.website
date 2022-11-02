@@ -40,7 +40,7 @@ function onError(error) {
             process.exit(1);
             break;
         default:
-            throw error;
+            throw LOG(error);
     }
 }
 
@@ -52,6 +52,15 @@ function onListening() {
 }
 
 server.listen(port);
+server.on("unhandledRejection", (reason, promise) => {
+    LOG("Unhandled Rejection at:", promise, "reason:", reason);
+    // Application specific logging, throwing an error, or other logic here
+});
+server.on("warning", (warning) => {
+    LOG(warning.name); // Print the warning name
+    LOG(warning.message); // Print the warning message
+    LOG(warning.stack); // Print the stack trace
+});
 server.on("error", onError);
 server.on("listening", onListening);
 LOG(`API is alive on ${port}!`);

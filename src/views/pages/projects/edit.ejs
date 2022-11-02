@@ -160,14 +160,17 @@
             let formData = new FormData();
             formData.append("image", photo, photo.name);
 
-            fetch('/api/upload/image', {
+            fetch('/api/image/upload', {
                     method: "POST",
-                    body: formData
+                    body: formData,
+                    headers: {
+                        'x-access-token': getCookie('x-access-token')
+                    },
                 })
                 .then(res => res.json())
                 .then(res => {
                     self.imageHasUploaded = true;
-                    self.imageUrl = res.image_url;
+                    self.imageUrl = res.url;
                     self.send();
                 })
                 .catch(err => imageHasUploaded = false);

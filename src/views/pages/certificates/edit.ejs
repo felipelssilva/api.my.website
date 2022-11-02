@@ -8,15 +8,15 @@
 </div>
 
 <script type="text/javascript">
-    
+
     this.imageHasUploaded = false;
     this.imageUrl = '';
-    
+
     document.addEventListener("DOMContentLoaded", function () {
         const _doc = $(document),
         _certificatesContainer = _doc.find('.js-certificates-edit'),
         _self = this;
-        
+
         $.ajax({
             type: 'GET',
             headers: {
@@ -26,7 +26,7 @@
         })
         .done(function (data) {
             _certificatesContainer.html(bodyHtml(data));
-            
+
             tinymce.init({
                 selector: 'textarea',
                 plugins: 'print preview searchreplace autolink autosave save directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help  charmap quickbars code',
@@ -46,7 +46,7 @@
                 contextmenu: "link image imagetools table",
                 a11y_advanced_options: true,
             });
-            
+
             _doc.on('click', '.js-certificate-edit-save', e => save(e));
             loadOrder();
         })
@@ -57,9 +57,9 @@
         })
         .always(function () {
         });
-        
+
     });
-    
+
     function bodyHtml(handler) {
         const btns = `
         <div class="row">
@@ -75,7 +75,7 @@
             </div>
         </div>
         `;
-        
+
         const html = `
         <div class="card">
             <div class="card-header">
@@ -124,14 +124,14 @@
             </div>
         </div>
         `;
-        
+
         return html;
     }
-    
+
     function save(evt) {
         evt.stopPropagation();
         evt.preventDefault();
-        
+
         const _doc = $(document),
         _self = this,
         $form = _doc.find('form'),
@@ -145,31 +145,37 @@
             _self.send();
         }
     }
-    
+
     function uploadImage() {
         const self = this;
         let photo = document.getElementById("img").files[0];
-        
+
         if(!!photo) {
             let formData = new FormData();
             formData.append("image", photo, photo.name);
-            
-            fetch('/api/upload/image', {method: "POST", body: formData})
+
+            fetch('/api/image/upload', {
+                method: "POST",
+                body: formData,
+                headers: {
+                    'x-access-token': getCookie('x-access-token')
+                },
+            })
             .then(res => res.json())
             .then(res => {
                 self.imageHasUploaded = true;
-                self.imageUrl = res.image_url;
+                self.imageUrl = res.url;
                 self.send();
             })
             .catch(err => imageHasUploaded = false);
         }
     }
-    
+
     function send() {
         const _doc = $(document),
         _self = this,
         $form = _doc.find('form');
-        
+
         let data = {};
 
         if(_self.imageUrl.length > 0) {
@@ -188,7 +194,7 @@
                 order: parseInt($form.find('select[name="order"] option:selected').val().trim())
             };
         }
-        
+
         if(_self.imageHasUploaded) {
             $.ajax({
                 type: 'PUT',
@@ -200,9 +206,9 @@
             })
             .done(function (data) {
                 toast({ data: data, type: 'success' });
-                
+
                 window.onbeforeunload = false;
-                
+
                 setTimeout(() => {
                     window.location.href = '/secure/certificates';
                 }, 2000);
@@ -214,12 +220,12 @@
             });
         }
     }
-    
+
     function loadOrder(){
         const _doc = $(document),
         _orderContainer = _doc.find('.js-order'),
         _self = this;
-        
+
         fetch('/api/certificates', {method: "GET"})
         .then(res => res.json())
         .then(res => {
@@ -233,5 +239,5 @@
         })
         .catch(err => console.error(err));
     }
-    
+
 </script>

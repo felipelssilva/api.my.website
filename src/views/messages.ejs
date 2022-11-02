@@ -33,7 +33,7 @@
 
         const html = `
             <div role="alert" aria-live="polite" aria-atomic="true"
-                class="toast border ${handler.type === 'error' ? 'border-danger' : 'border-success'}" 
+                class="toast border ${handler.type === 'error' ? 'border-danger' : 'border-success'}"
                 data-delay="10000">
                 <div class="toast-header">
                     <strong class="mr-auto">
@@ -59,13 +59,13 @@
 <div style="width:300px;" class="js-toast fixed-top mt-3 ml-3"></div>
 
 <script type="text/javascript">
-    
+
     function getMessage(handler) {
         let message = '';
 
         if (handler.type === 'error') {
-            if (typeof handler.data.responseJSON.message !== 'string') {
-                handler.data.responseJSON.message.forEach(element => {
+            if (typeof handler.data.message !== 'string') {
+                handler.data.message.forEach(element => {
                     message += `<li>${element.msg}</li>`;
                 });
             } else {
@@ -87,7 +87,7 @@
         } else {
             const html = `
                 <div id="${_id}" role="alert" aria-live="polite" aria-atomic="true"
-                    class="toast border ${handler.type === 'error' ? 'border-danger' : 'border-success'}" 
+                    class="toast border ${handler.type === 'error' ? 'border-danger' : 'border-success'}"
                     data-delay="10000">
                     <div class="toast-header">
                         <strong class="mr-auto">

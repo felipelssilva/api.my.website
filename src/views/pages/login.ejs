@@ -91,6 +91,7 @@
                 if (!!data.auth) {
                     window.location.href = '/secure';
                 } else {
+                    $form.find('button[type=submit]').removeAttr('disabled', false);
                     toast({ data, type: 'error' });
                 }
             })

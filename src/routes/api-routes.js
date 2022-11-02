@@ -2,7 +2,7 @@ const express = require("express");
 const { verifyJWT } = require("../auth");
 
 const router = express.Router();
-const uploadController = require("../controllers/upload-controller");
+const controller = require("../controllers/upload-controller");
 
 router
     .get("/", verifyJWT, (req, res) => {
@@ -11,10 +11,8 @@ router
             version: "1.0.0",
         });
     })
-    .post(
-        "/upload/image",
-        uploadController.multer.single("image"),
-        uploadController.sendUpload
-    );
+    .post("/image/upload", verifyJWT, controller.upload)
+    .get("/image/list", verifyJWT, controller.list)
+    .get("/image/download/:name", verifyJWT, controller.download);
 
 module.exports = router;
