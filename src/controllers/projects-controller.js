@@ -5,7 +5,6 @@ const { LOG } = require("../services/log");
 exports.list = async (req, res) => {
     try {
         const data = await repository.list();
-        LOG("List projects successfully");
         return res.status(200).send(data);
     } catch (e) {
         LOG("Failed to load projects");
@@ -16,7 +15,6 @@ exports.list = async (req, res) => {
 exports.page = async (req, res) => {
     try {
         const data = await repository.page();
-        LOG("Page projects successfully");
         return res.status(200).send(data);
     } catch (e) {
         LOG("Failed to load page projects");
@@ -27,7 +25,6 @@ exports.page = async (req, res) => {
 exports.details = async (req, res) => {
     try {
         const data = await repository.details(req.params.id);
-        LOG("Details projects successfully");
         return res.status(200).send(data);
     } catch (e) {
         LOG("Failed to load details projects");
@@ -65,15 +62,14 @@ exports.saving = async (req, res) => {
 
         await repository.saving(data);
 
-        LOG(`Projects (${req.body.name}) successfully updated!`);
         return res.status(200).send({
             message: `Projects (${req.body.name}) successfully updated!`,
         });
     } catch (e) {
-        LOG(`Failed to save the projects info! - ${e}`);
+        LOG(`Failed to save the projects info!`, e);
         return res
             .status(500)
-            .send({ message: `Failed to save the projects info! - ${e}` });
+            .send({ message: `Failed to save the projects info!`, error: e });
     }
 };
 
@@ -84,15 +80,14 @@ exports.delete = async (req, res) => {
             updated_at: Date.now(),
             deleted_at: Date.now(),
         });
-        LOG("Projects successfully deleted");
         return res
             .status(200)
             .send({ message: `Projects successfully deleted!` });
     } catch (e) {
-        LOG("Failed to delete the Projects");
+        LOG("Failed to delete the Projects", e);
         return res
             .status(500)
-            .send({ message: "Failed to delete the Projects!" });
+            .send({ message: "Failed to delete the Projects!", error: e });
     }
 };
 
@@ -127,12 +122,13 @@ exports.create = async (req, res) => {
 
         await repository.create(data);
 
-        LOG("Project successfully registered!");
         return res
             .status(201)
             .send({ message: "Project successfully registered!" });
     } catch (e) {
-        LOG("Failed to register project.");
-        return res.status(500).send({ message: "Failed to register project." });
+        LOG("Failed to register project.", e);
+        return res
+            .status(500)
+            .send({ message: "Failed to register project.", error: e });
     }
 };

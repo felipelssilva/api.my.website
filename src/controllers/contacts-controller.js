@@ -1,5 +1,6 @@
 const { validationResult } = require("express-validator");
 const repository = require("../repositories/contacts-repository");
+const { LOG } = require("../services/log");
 
 // list
 exports.list = async (req, res) => {
@@ -7,7 +8,8 @@ exports.list = async (req, res) => {
         const data = await repository.list();
         res.status(200).send(data);
     } catch (e) {
-        res.status(500).send({ message: "Failed to load contacts!" });
+        LOG("Failed to load contacts!", e);
+        res.status(500).send({ message: "Failed to load contacts!", error: e });
     }
 };
 
@@ -16,7 +18,11 @@ exports.details = async (req, res) => {
         const data = await repository.details(req.params.id);
         res.status(200).send(data);
     } catch (e) {
-        res.status(500).send({ message: "Failed to load the contact info!" });
+        LOG("Failed to load the contact info!", e);
+        res.status(500).send({
+            message: "Failed to load the contact info!",
+            error: e,
+        });
     }
 };
 
@@ -40,6 +46,9 @@ exports.create = async (req, res) => {
             .status(201)
             .send({ message: "Contact successfully registered!" });
     } catch (e) {
-        return res.status(500).send({ message: "Failed to register contact." });
+        LOG("Failed to register contact.", e);
+        return res
+            .status(500)
+            .send({ message: "Failed to register contact.", error: e });
     }
 };

@@ -1,12 +1,14 @@
 const { validationResult } = require("express-validator");
 const repository = require("../repositories/blogs-repository");
+const { LOG } = require("../services/log");
 
 exports.list = async (req, res) => {
     try {
         const data = await repository.list();
         res.status(200).send(data);
     } catch (e) {
-        res.status(500).send({ message: "Failed to load blogs!" });
+        LOG("Failed to load blogs!", e);
+        res.status(500).send({ message: "Failed to load blogs!", error: e });
     }
 };
 
@@ -15,7 +17,11 @@ exports.lastsPosts = async (req, res) => {
         const data = await repository.lastsPosts();
         res.status(200).send(data);
     } catch (e) {
-        res.status(500).send({ message: "Failed to load more post!" });
+        LOG("Failed to load more post!", e);
+        res.status(500).send({
+            message: "Failed to load more post!",
+            error: e,
+        });
     }
 };
 
@@ -24,7 +30,8 @@ exports.page = async (req, res) => {
         const data = await repository.page();
         res.status(200).send(data);
     } catch (e) {
-        res.status(500).send({ message: "Failed to load blogs!" });
+        LOG("Failed to load blogs!", e);
+        res.status(500).send({ message: "Failed to load blogs!", error: e });
     }
 };
 
@@ -38,23 +45,13 @@ exports.details = async (req, res) => {
         const data = await repository.details(req.params.id);
         res.status(200).send(data);
     } catch (e) {
+        LOG("Failed to load the blog info!", e);
         res.status(500).send({
-            error: true,
+            error: e,
             message: "Failed to load the blog info!",
         });
     }
 };
-
-// exports.detailsByPermalink = async (req, res) => {
-//     try {
-//         const data = await repository.detailsByPermalink({
-//             permalink: this.permalink(req.params.permalink)
-//         });
-//         res.status(200).send(data);
-//     } catch (e) {
-//         res.status(500).send({ message: 'Failed to load the blog info!' });
-//     }
-// };
 
 exports.saving = async (req, res) => {
     try {
@@ -70,8 +67,10 @@ exports.saving = async (req, res) => {
             message: `Blog (${req.body.title}) successfully updated!`,
         });
     } catch (e) {
+        LOG("Failed to load the blog info!", e);
         res.status(500).send({
-            message: `Failed to save the blogs info! - ${e}`,
+            message: `Failed to save the blogs info`,
+            error: e,
         });
     }
 };
@@ -85,7 +84,11 @@ exports.delete = async (req, res) => {
         });
         res.status(200).send({ message: `Blog successfully deleted!` });
     } catch (e) {
-        res.status(500).send({ message: "Failed to delete the blog!" });
+        LOG("Failed to delete the blog!", e);
+        res.status(500).send({
+            message: "Failed to delete the blog!",
+            error: e,
+        });
     }
 };
 
@@ -108,7 +111,10 @@ exports.create = async (req, res) => {
             .status(201)
             .send({ message: "Blogs successfully registered!" });
     } catch (e) {
-        return res.status(500).send({ message: "Failed to register blog." });
+        LOG("Failed to register blog.", e);
+        return res
+            .status(500)
+            .send({ message: "Failed to register blog.", error: e });
     }
 };
 

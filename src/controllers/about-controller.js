@@ -1,11 +1,13 @@
 const repository = require("../repositories/about-repository");
+const { LOG } = require("../services/log");
 
 exports.list = async (req, res) => {
     try {
         const data = await repository.list();
         res.status(200).send(data);
     } catch (e) {
-        res.status(500).send({ message: "Failed to load about me!" });
+        LOG("Failed to load admins!", e);
+        res.status(500).send({ message: "Failed to load about me!", error: e });
     }
 };
 
@@ -14,8 +16,9 @@ exports.details = async (req, res) => {
         const data = await repository.details(req.params.id);
         res.status(200).send(data);
     } catch (e) {
+        LOG("Failed to load admins!", e);
         res.status(500).send({
-            error: true,
+            error: e,
             message: "Failed to load the about me!",
         });
     }
@@ -30,8 +33,10 @@ exports.saving = async (req, res) => {
         });
         res.status(200).send({ message: `About me successfully updated!` });
     } catch (e) {
+        LOG("Failed to load admins!", e);
         res.status(500).send({
-            message: `Failed to save the about me! - ${e}`,
+            message: `Failed to save the about me!`,
+            error: e,
         });
     }
 };

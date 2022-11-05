@@ -5,38 +5,35 @@ const { LOG } = require("../services/log");
 exports.list = async (req, res) => {
     try {
         const data = await repository.list();
-        LOG("List certificates successfully");
         return res.status(200).send(data);
     } catch (e) {
-        LOG("Failed to load certificates");
+        LOG("Failed to load certificates", e);
         return res
             .status(500)
-            .send({ message: "Failed to load certificates!" });
+            .send({ message: "Failed to load certificates!", error: e });
     }
 };
 
 exports.page = async (req, res) => {
     try {
         const data = await repository.page();
-        LOG("Page certificates successfully");
         return res.status(200).send(data);
     } catch (e) {
-        LOG("Failed to load page certificates");
+        LOG("Failed to load page certificates", e);
         return res
             .status(500)
-            .send({ message: "Failed to load certificates!" });
+            .send({ message: "Failed to load certificates!", error: e });
     }
 };
 
 exports.details = async (req, res) => {
     try {
         const data = await repository.details(req.params.id);
-        LOG("Details certificates successfully");
         return res.status(200).send(data);
     } catch (e) {
-        LOG("Failed to load details certificates");
+        LOG("Failed to load details certificates", e);
         return res.status(500).send({
-            error: true,
+            error: e,
             message: "Failed to load the certificates info!",
         });
     }
@@ -69,15 +66,15 @@ exports.saving = async (req, res) => {
 
         await repository.saving(data);
 
-        LOG(`Certificates (${req.body.name}) successfully updated!`);
         return res.status(200).send({
             message: `Certificates (${req.body.name}) successfully updated!`,
         });
     } catch (e) {
-        LOG(`Failed to save the certificates info! - ${e}`);
-        return res
-            .status(500)
-            .send({ message: `Failed to save the certificates info! - ${e}` });
+        LOG(`Failed to save the certificates info!`, e);
+        return res.status(500).send({
+            message: `Failed to save the certificates info!`,
+            error: e,
+        });
     }
 };
 
@@ -88,15 +85,14 @@ exports.delete = async (req, res) => {
             updated_at: Date.now(),
             deleted_at: Date.now(),
         });
-        LOG("Certificates successfully deleted");
         return res
             .status(200)
             .send({ message: `Certificates successfully deleted!` });
     } catch (e) {
-        LOG("Failed to delete the Certificates");
+        LOG("Failed to delete the Certificates", e);
         return res
             .status(500)
-            .send({ message: "Failed to delete the Certificates!" });
+            .send({ message: "Failed to delete the Certificates!", error: e });
     }
 };
 
@@ -131,14 +127,13 @@ exports.create = async (req, res) => {
 
         await repository.create(data);
 
-        LOG("Certificate successfully registered!");
         return res
             .status(201)
             .send({ message: "Certificate successfully registered!" });
     } catch (e) {
-        LOG("Failed to register certificate.");
+        LOG("Failed to register certificate.", e);
         return res
             .status(500)
-            .send({ message: "Failed to register certificate." });
+            .send({ message: "Failed to register certificate.", error: e });
     }
 };
