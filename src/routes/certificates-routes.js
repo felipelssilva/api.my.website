@@ -2,14 +2,14 @@ const express = require("express");
 
 const router = express.Router();
 const { check } = require("express-validator");
-const certificatesController = require("../controllers/certificates-controller");
+const controller = require("../controllers/certificates-controller");
 const { verifyJWT } = require("../auth");
 
 router
-    .get("/", certificatesController.page)
-    .get("/:id", certificatesController.details)
-    .get("/:id/edit", verifyJWT, certificatesController.details)
-    .delete("/:id", verifyJWT, certificatesController.delete)
+    .get("/", controller.page)
+    .get("/:id", controller.details)
+    .get("/:id/edit", verifyJWT, controller.details)
+    .delete("/:id", verifyJWT, controller.delete)
     .put(
         "/:id/save",
         verifyJWT,
@@ -30,7 +30,7 @@ router
                     "O conteúdo do certificado precisa ter pelo menos 4 caracteres"
                 ),
         ],
-        certificatesController.saving
+        controller.saving
     )
     .put(
         "/add",
@@ -52,7 +52,7 @@ router
                     "O conteúdo do certificado precisa ter pelo menos 4 caracteres"
                 ),
         ],
-        certificatesController.create
+        controller.create
     );
 
 module.exports = router;

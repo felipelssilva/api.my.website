@@ -2,12 +2,12 @@ const express = require("express");
 
 const router = express.Router();
 const { check } = require("express-validator");
-const contactsController = require("../controllers/contacts-controller");
+const controller = require("../controllers/contacts-controller");
 const { verifyJWT } = require("../auth");
 
 router
-    .get("/", verifyJWT, contactsController.list)
-    .get("/:id", verifyJWT, contactsController.details)
+    .get("/", verifyJWT, controller.list)
+    .get("/:id", verifyJWT, controller.details)
     .post(
         "/",
         [
@@ -29,7 +29,7 @@ router
                     "The message must be a minimum of 20 characters and a maximum of 500."
                 ),
         ],
-        contactsController.create
+        controller.create
     );
 
 module.exports = router;

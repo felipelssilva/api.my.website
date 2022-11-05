@@ -2,17 +2,17 @@ const express = require("express");
 
 const router = express.Router();
 const { check } = require("express-validator");
-const blogsController = require("../controllers/blogs-controller");
+const controller = require("../controllers/blogs-controller");
 const { verifyJWT } = require("../auth");
 
-// .get('/:permalink', blogsController.detailsByPermalink)
+// .get('/:permalink', controller.detailsByPermalink)
 
 router
-    .get("/", blogsController.page)
-    .get("/lasts-posts", blogsController.lastsPosts)
-    .get("/:id", blogsController.details)
-    .get("/:id/edit", verifyJWT, blogsController.details)
-    .delete("/:id", verifyJWT, blogsController.delete)
+    .get("/", controller.page)
+    .get("/lasts-posts", controller.lastsPosts)
+    .get("/:id", controller.details)
+    .get("/:id/edit", verifyJWT, controller.details)
+    .delete("/:id", verifyJWT, controller.delete)
     .put(
         "/:id/save",
         verifyJWT,
@@ -28,7 +28,7 @@ router
                     "O conteúdo do blog precisa ter pelo menos 20 caracteres"
                 ),
         ],
-        blogsController.saving
+        controller.saving
     )
     .put(
         "/add",
@@ -45,7 +45,7 @@ router
                     "O conteúdo do blog precisa ter pelo menos 20 caracteres"
                 ),
         ],
-        blogsController.create
+        controller.create
     );
 
 module.exports = router;

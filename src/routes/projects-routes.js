@@ -2,14 +2,14 @@ const express = require("express");
 
 const router = express.Router();
 const { check } = require("express-validator");
-const projectsController = require("../controllers/projects-controller");
+const controller = require("../controllers/projects-controller");
 const { verifyJWT } = require("../auth");
 
 router
-    .get("/", projectsController.page)
-    .get("/:id", projectsController.details)
-    .get("/:id/edit", verifyJWT, projectsController.details)
-    .delete("/:id", verifyJWT, projectsController.delete)
+    .get("/", controller.page)
+    .get("/:id", controller.details)
+    .get("/:id/edit", verifyJWT, controller.details)
+    .delete("/:id", verifyJWT, controller.delete)
     .put(
         "/:id/save",
         verifyJWT,
@@ -30,7 +30,7 @@ router
                     "O conteúdo do projeto precisa ter pelo menos 4 caracteres"
                 ),
         ],
-        projectsController.saving
+        controller.saving
     )
     .put(
         "/add",
@@ -52,7 +52,7 @@ router
                     "O conteúdo do projeto precisa ter pelo menos 4 caracteres"
                 ),
         ],
-        projectsController.create
+        controller.create
     );
 
 module.exports = router;
