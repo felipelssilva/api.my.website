@@ -40,7 +40,7 @@ app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ limit: "2mb", extended: true }));
-app.set("view engine", "ejs");
+// app.set("view engine", "ejs");
 
 app.use(cookieParser(process.env.SECRET));
 app.use(session({ cookie: { maxAge: 60000 } }));
@@ -76,7 +76,6 @@ app.use((req, res, next) => {
 global.db = require("./db");
 
 // Load routes
-const secureRoutes = require("./routes/secure-routes");
 const apiRoutes = require("./routes/api-routes");
 const contactsRoutes = require("./routes/contacts-routes");
 const blogsRoutes = require("./routes/blogs-routes");
@@ -85,7 +84,6 @@ const certificatesRoutes = require("./routes/certificates-routes");
 const projectsRoutes = require("./routes/projects-routes");
 
 app.use(express.static(`public`));
-app.use("/secure", secureRoutes);
 
 app.use("/api", apiRoutes);
 app.use("/api/contacts", contactsRoutes);
@@ -93,14 +91,6 @@ app.use("/api/blogs", blogsRoutes);
 app.use("/api/about", aboutRoutes);
 app.use("/api/certificates", certificatesRoutes);
 app.use("/api/projects", projectsRoutes);
-
-app.use("/secure/*", (req, res) => {
-    res.status(404).render(path.resolve(INDEX_VIEW_PATH), {
-        user: req.user,
-        page: "error",
-        response: res.statusCode,
-    });
-});
 
 module.exports = app;
 module.exports.handler = serverless(app);
