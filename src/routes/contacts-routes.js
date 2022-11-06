@@ -6,8 +6,8 @@ const controller = require("../controllers/contacts-controller");
 const { verifyJWT } = require("../auth");
 
 router
-    .get("/", verifyJWT, controller.list)
-    .get("/:id", verifyJWT, controller.details)
+    .get("/", controller.list)
+    .get("/:id", controller.details)
     .post(
         "/",
         [
