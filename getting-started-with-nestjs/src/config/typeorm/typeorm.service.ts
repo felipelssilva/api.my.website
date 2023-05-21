@@ -8,7 +8,7 @@ export class TypeormService implements TypeOrmOptionsFactory {
     return {
       type: 'mongodb',
       // type: 'mongodb',
-      url: 'mongodb+srv://felipeluis-website-01:fShLSn9z0yqVmqJo@cluster0.kwrte.mongodb.net/cluster_dev?retryWrites=true&w=majority',
+      url: process.env.DATABASE_URL,
       // entities: [join(__dirname, '**/**.entity{.ts,.js}')],
       // synchronize: true,
       // useNewUrlParser: true,
