@@ -8,6 +8,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export enum RoleEnum {
+    MEMBER = "MEMBER",
+    MANAGER = "MANAGER",
+    ADMIN = "ADMIN"
+}
+
 export class CreateCertificatesInput {
     name: string;
     description: string;
@@ -80,6 +86,11 @@ export class UpdateUserInput {
     createdAt?: Nullable<string>;
 }
 
+export class LoginUserInput {
+    username: string;
+    password: string;
+}
+
 export class Certificates {
     _id: string;
     name: string;
@@ -105,7 +116,7 @@ export abstract class IQuery {
 
     abstract project(_id: string): Nullable<Projects> | Promise<Nullable<Projects>>;
 
-    abstract users(): Nullable<User[]> | Promise<Nullable<User[]>>;
+    abstract users(offset: number, limit: number): Nullable<User[]> | Promise<Nullable<User[]>>;
 
     abstract user(_id: string): Nullable<User> | Promise<Nullable<User>>;
 }
@@ -134,6 +145,10 @@ export abstract class IMutation {
     abstract updateUser(_id: string, input: UpdateUserInput): Nullable<boolean> | Promise<Nullable<boolean>>;
 
     abstract deleteUser(_id: string): Nullable<boolean> | Promise<Nullable<boolean>>;
+
+    abstract login(input: LoginUserInput): Nullable<LoginResponse> | Promise<Nullable<LoginResponse>>;
+
+    abstract setRole(_id: string, role: RoleEnum): Nullable<boolean> | Promise<Nullable<boolean>>;
 }
 
 export class Contacts {
@@ -156,12 +171,22 @@ export class Projects {
     updateAt: string;
 }
 
+export class LoginResponse {
+    token: string;
+}
+
 export class User {
     _id: string;
     username: string;
     name: string;
     password: string;
+    role: RoleEnum;
+    status: boolean;
     createdAt: string;
+}
+
+export abstract class ISubscription {
+    abstract userCreated(): Nullable<User> | Promise<Nullable<User>>;
 }
 
 type Nullable<T> = T | null;

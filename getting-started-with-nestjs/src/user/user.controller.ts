@@ -30,12 +30,12 @@ export class UserController {
   //   return this.userService.findAll();
   // }
 
-  @Get('/:userId')
-  @ApiOkResponse({ description: 'Retrieved successfully.' })
-  @ApiNotFoundResponse({ description: 'Not found.' })
-  getUser(@Param('userId', ParseIntPipe) userId: number) {
-    return this.userService.getUser(userId);
-  }
+  // @Get('/:userId')
+  // @ApiOkResponse({ description: 'Retrieved successfully.' })
+  // @ApiNotFoundResponse({ description: 'Not found.' })
+  // getUser(@Param('userId', ParseIntPipe) userId: number) {
+  //   return this.userService.getUser(userId);
+  // }
 
   // @Post()
   // @ApiOkResponse({ description: 'Retrieved successfully.' })
