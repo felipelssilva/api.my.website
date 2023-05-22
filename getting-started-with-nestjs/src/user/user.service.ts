@@ -10,7 +10,7 @@ import {
   UpdateUserInput,
   LoginUserInput,
   LoginResponse,
-} from '../../src/graphql';
+} from '../graphql';
 import { AuthenticationError } from 'apollo-server-core';
 import * as jwt from 'jsonwebtoken';
 
@@ -39,53 +39,35 @@ export class UserService {
   }
 
   async create(input: CreateUserInput): Promise<User> {
-    const { username, password, name } = input;
-    // const message = 'Email has already been taken.';
+    const { username, password, name, email } = input;
+    const message = 'Email has already been taken.';
 
-    // const existedUser = await this.userRepository.findOne({
-    //   where: {
-    //     email: email,
-    //   },
-    // });
+    const existedUser = await this.userRepository.findOne({
+      where: {
+        email: email,
+      },
+    });
 
-    // if (existedUser) {
-    //   throw new Error(message);
-    // }
+    if (existedUser) {
+      throw new Error(message);
+    }
 
     const user = new User();
     user.username = username;
     user.password = password;
     user.name = name;
+    user.email = email;
+
     return await this.userRepository.save(user);
   }
 
-  // getUser(userId: number) {
-  //   return { userId };
-  // }
-
-  // create(req: Request) {
-  //   return req.body;
-  // }
-
-  // update(updateUserDto: UpdateUserDto, userId: number) {
-  //   return { body: updateUserDto, userId };
-  // }
-
   async update(_id: string, input: UpdateUserInput): Promise<boolean> {
-    const { username, password, name } = input;
+    const user = await this.userRepository.findOneAndUpdate(
+      { _id },
+      { $set: input },
+    );
 
-    // const updatedUser = await this.userRepository.updateOne({ _id }, { $set: { input } })
-
-    const user = await this.userRepository.findOne({
-      where: {
-        _id: _id,
-      },
-    });
-    user.username = username;
-    user.password = password;
-    user.name = name;
-
-    return (await this.userRepository.save(user)) ? true : false;
+    return user ? true : false;
   }
 
   async delete(_id: string): Promise<boolean> {
@@ -142,7 +124,10 @@ export class UserService {
     return currentUser;
   }
 
-  async setRole(_id: string, role: string): Promise<boolean> {
+  async setRole(
+    _id: string,
+    role: 'MEMBER' | 'MANAGER' | 'ADMIN',
+  ): Promise<boolean> {
     return (await this.userRepository.updateOne({ _id }, { $set: { role } }))
       ? true
       : false;

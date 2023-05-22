@@ -14,29 +14,29 @@ export enum RoleEnum {
     ADMIN = "ADMIN"
 }
 
-export class CreateCertificatesInput {
+export class CreateCertificateInput {
     name: string;
     description: string;
     url: string;
     order: string;
     img: string;
     createdAt: string;
-    updateAt: string;
-    deletedAt: string;
-}
-
-export class UpdateCertificatesInput {
-    name?: Nullable<string>;
-    description?: Nullable<string>;
-    url?: Nullable<string>;
-    order?: Nullable<string>;
-    img?: Nullable<string>;
-    createdAt?: Nullable<string>;
-    updateAt?: Nullable<string>;
     deletedAt?: Nullable<string>;
+    updatedAt?: Nullable<string>;
 }
 
-export class CreateContactsInput {
+export class UpdateCertificateInput {
+    name?: Nullable<string>;
+    description: string;
+    url: string;
+    order: string;
+    img: string;
+    createdAt?: Nullable<string>;
+    deletedAt?: Nullable<string>;
+    updatedAt: string;
+}
+
+export class CreateContactInput {
     name: string;
     email: string;
     subject: string;
@@ -46,7 +46,7 @@ export class CreateContactsInput {
     updatedAt?: Nullable<string>;
 }
 
-export class UpdateContactsInput {
+export class UpdateContactInput {
     name?: Nullable<string>;
     email?: Nullable<string>;
     subject?: Nullable<string>;
@@ -56,34 +56,56 @@ export class UpdateContactsInput {
     updatedAt: string;
 }
 
-export class CreateProjectsInput {
+export class CreateGraduationInput {
+    name: string;
+    title: string;
+    description: string;
+    img: string;
+    createdAt: string;
+    deletedAt?: Nullable<string>;
+    updatedAt?: Nullable<string>;
+}
+
+export class UpdateGraduationInput {
+    name?: Nullable<string>;
+    title?: Nullable<string>;
+    description?: Nullable<string>;
+    img?: Nullable<string>;
+    createdAt?: Nullable<string>;
+    deletedAt?: Nullable<string>;
+    updatedAt: string;
+}
+
+export class CreateProjectInput {
     name: string;
     description: string;
     url: string;
     createdAt: string;
-    updateAt: string;
+    deletedAt?: Nullable<string>;
+    updatedAt?: Nullable<string>;
 }
 
-export class UpdateProjectsInput {
+export class UpdateProjectInput {
     name?: Nullable<string>;
     description?: Nullable<string>;
     url?: Nullable<string>;
     createdAt?: Nullable<string>;
-    updateAt?: Nullable<string>;
+    deletedAt?: Nullable<string>;
+    updatedAt: string;
 }
 
 export class CreateUserInput {
     username: string;
     name: string;
     password: string;
-    createdAt: string;
+    email: string;
 }
 
 export class UpdateUserInput {
     username?: Nullable<string>;
     name?: Nullable<string>;
     password?: Nullable<string>;
-    createdAt?: Nullable<string>;
+    email?: Nullable<string>;
 }
 
 export class LoginUserInput {
@@ -91,7 +113,7 @@ export class LoginUserInput {
     password: string;
 }
 
-export class Certificates {
+export class Certificate {
     _id: string;
     name: string;
     description: string;
@@ -99,22 +121,28 @@ export class Certificates {
     order: string;
     img: string;
     createdAt: string;
-    updateAt: string;
-    deletedAt: string;
+    deletedAt?: Nullable<string>;
+    updatedAt?: Nullable<string>;
 }
 
 export abstract class IQuery {
-    abstract certificates(): Nullable<Certificates[]> | Promise<Nullable<Certificates[]>>;
+    abstract certificates(): Nullable<Certificate[]> | Promise<Nullable<Certificate[]>>;
 
-    abstract certificate(_id: string): Nullable<Certificates> | Promise<Nullable<Certificates>>;
+    abstract certificate(_id: string): Nullable<Certificate> | Promise<Nullable<Certificate>>;
 
-    abstract contacts(): Nullable<Contacts[]> | Promise<Nullable<Contacts[]>>;
+    abstract contacts(): Nullable<Contact[]> | Promise<Nullable<Contact[]>>;
 
-    abstract contact(_id: string): Nullable<Contacts> | Promise<Nullable<Contacts>>;
+    abstract contact(_id: string): Nullable<Contact> | Promise<Nullable<Contact>>;
 
-    abstract projects(): Nullable<Projects[]> | Promise<Nullable<Projects[]>>;
+    abstract graduations(): Nullable<Graduation[]> | Promise<Nullable<Graduation[]>>;
 
-    abstract project(_id: string): Nullable<Projects> | Promise<Nullable<Projects>>;
+    abstract graduation(_id: string): Nullable<Graduation> | Promise<Nullable<Graduation>>;
+
+    abstract projects(): Nullable<Project[]> | Promise<Nullable<Project[]>>;
+
+    abstract project(_id: string): Nullable<Project> | Promise<Nullable<Project>>;
+
+    abstract me(): Nullable<User> | Promise<Nullable<User>>;
 
     abstract users(offset: number, limit: number): Nullable<User[]> | Promise<Nullable<User[]>>;
 
@@ -122,36 +150,44 @@ export abstract class IQuery {
 }
 
 export abstract class IMutation {
-    abstract createCertificates(input: CreateCertificatesInput): Nullable<Certificates> | Promise<Nullable<Certificates>>;
+    abstract createCertificate(input: CreateCertificateInput): Nullable<Certificate> | Promise<Nullable<Certificate>>;
 
-    abstract updateCertificates(_id: string, input: UpdateCertificatesInput): Nullable<boolean> | Promise<Nullable<boolean>>;
+    abstract updateCertificate(_id: string, input: UpdateCertificateInput): Nullable<boolean> | Promise<Nullable<boolean>>;
 
-    abstract deleteCertificates(_id: string): Nullable<boolean> | Promise<Nullable<boolean>>;
+    abstract deleteCertificate(_id: string): Nullable<boolean> | Promise<Nullable<boolean>>;
 
-    abstract createContact(input: CreateContactsInput): Nullable<Contacts> | Promise<Nullable<Contacts>>;
+    abstract createContact(input: CreateContactInput): Nullable<Contact> | Promise<Nullable<Contact>>;
 
-    abstract updateContact(_id: string, input: UpdateContactsInput): Nullable<boolean> | Promise<Nullable<boolean>>;
+    abstract updateContact(_id: string, input: UpdateContactInput): Nullable<boolean> | Promise<Nullable<boolean>>;
 
     abstract deleteContact(_id: string): Nullable<boolean> | Promise<Nullable<boolean>>;
 
-    abstract createProject(input: CreateProjectsInput): Nullable<Projects> | Promise<Nullable<Projects>>;
+    abstract createGraduation(input: CreateGraduationInput): Nullable<Graduation> | Promise<Nullable<Graduation>>;
 
-    abstract updateProject(_id: string, input: UpdateProjectsInput): Nullable<boolean> | Promise<Nullable<boolean>>;
+    abstract updateGraduation(_id: string, input: UpdateGraduationInput): Nullable<boolean> | Promise<Nullable<boolean>>;
+
+    abstract deleteGraduation(_id: string): Nullable<boolean> | Promise<Nullable<boolean>>;
+
+    abstract createProject(input: CreateProjectInput): Nullable<Project> | Promise<Nullable<Project>>;
+
+    abstract updateProject(_id: string, input: UpdateProjectInput): Nullable<boolean> | Promise<Nullable<boolean>>;
 
     abstract deleteProject(_id: string): Nullable<boolean> | Promise<Nullable<boolean>>;
 
-    abstract createUser(input: CreateUserInput): Nullable<User> | Promise<Nullable<User>>;
+    abstract register(input: CreateUserInput): Nullable<User> | Promise<Nullable<User>>;
 
     abstract updateUser(_id: string, input: UpdateUserInput): Nullable<boolean> | Promise<Nullable<boolean>>;
 
     abstract deleteUser(_id: string): Nullable<boolean> | Promise<Nullable<boolean>>;
+
+    abstract deleteUsers(): boolean | Promise<boolean>;
 
     abstract login(input: LoginUserInput): Nullable<LoginResponse> | Promise<Nullable<LoginResponse>>;
 
     abstract setRole(_id: string, role: RoleEnum): Nullable<boolean> | Promise<Nullable<boolean>>;
 }
 
-export class Contacts {
+export class Contact {
     _id: string;
     name: string;
     email: string;
@@ -162,13 +198,25 @@ export class Contacts {
     updatedAt?: Nullable<string>;
 }
 
-export class Projects {
+export class Graduation {
+    _id: string;
+    name: string;
+    title: string;
+    description: string;
+    img: string;
+    createdAt: string;
+    deletedAt?: Nullable<string>;
+    updatedAt?: Nullable<string>;
+}
+
+export class Project {
     _id: string;
     name: string;
     description: string;
     url: string;
     createdAt: string;
-    updateAt: string;
+    deletedAt?: Nullable<string>;
+    updatedAt?: Nullable<string>;
 }
 
 export class LoginResponse {
@@ -180,6 +228,7 @@ export class User {
     username: string;
     name: string;
     password: string;
+    email: string;
     role: RoleEnum;
     status: boolean;
     createdAt: string;

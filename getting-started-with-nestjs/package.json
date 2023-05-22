@@ -17,7 +17,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "generate-typings": " npx ts-node generate-typings"
   },
   "dependencies": {
     "@apollo/server": "^4.7.1",
@@ -33,6 +34,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "graphql": "^16.6.0",
+    "graphql-subscriptions": "^2.0.0",
     "graphql-tools": "^9.0.0",
     "jsonwebtoken": "^9.0.0",
     "mongodb": "^5.5.0",
