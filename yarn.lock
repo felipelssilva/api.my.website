@@ -1008,10 +1008,10 @@ follow-redirects@^1.0.0:
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
   integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
 
-formidable@^3.5.0:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/formidable/-/formidable-3.5.0.tgz#3605a9325130d05c550d57be8e81d1757baa12d6"
-  integrity sha512-WwsMWvPmY+Kv37C3+KP3A+2Ym1aZoac4nz4ZEe5z0UPBoCg0O/wHay3eeYkZr4KJIbCzpSUeno+STMhde+KCfw==
+formidable@^3.5.1:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/formidable/-/formidable-3.5.1.tgz#9360a23a656f261207868b1484624c4c8d06ee1a"
+  integrity sha512-WJWKelbRHN41m5dumb0/k8TeAx7Id/y3a+Z7QfhxP/htI9Js5zYaEDtG8uMgG0vM0lOlqnmjE99/kfpOYi/0Og==
   dependencies:
     dezalgo "^1.0.4"
     hexoid "^1.0.0"
