@@ -42,7 +42,7 @@
     },
     "devDependencies": {
         "dotenv-safe": "8.2.0",
-        "ejs": "3.1.9",
+        "ejs": "3.1.10",
         "nodemon": "3.0.1",
         "eslint": "^8.26.0",
         "eslint-config-airbnb-base": "^15.0.0",
