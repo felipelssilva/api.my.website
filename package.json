@@ -41,7 +41,7 @@
         "uuid": "^9.0.0"
     },
     "devDependencies": {
-        "dotenv-safe": "8.2.0",
+        "dotenv-safe": "9.1.0",
         "ejs": "3.1.9",
         "nodemon": "3.0.1",
         "eslint": "^8.26.0",
