@@ -38,7 +38,7 @@
         "passport-local-mongoose": "^7.1.2",
         "prettier": "^3.2.5",
         "serverless-http": "^3.1.0",
-        "uuid": "^9.0.0"
+        "uuid": "^13.0.0"
     },
     "devDependencies": {
         "dotenv-safe": "8.2.0",
